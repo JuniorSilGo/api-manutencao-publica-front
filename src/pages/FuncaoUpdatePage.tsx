@@ -10,34 +10,27 @@ const FuncaoUpdatePage = () => {
   const { user, logout } = useAuth()
   const navigate = useNavigate()
   const [menuAberto, setMenuAberto] = useState(false)
-  const [selectedId, setSelectedId] = useState<number | null>(null)
+  const [selectedId, setSelectedId] = useState<number | ''>('')
   const [funcao, setFuncao] = useState('')
   const [setor, setSetor] = useState('')
   const [mensagemSucesso, setMensagemSucesso] = useState('')
   const [mensagemErro, setMensagemErro] = useState('')
-  const [carregando, setCarregando] = useState(false)
+  const [ativo, setAtivo] = useState(true)
 
   useEffect(() => {
     const carregarFuncao = async () => {
       if (!selectedId) return
       try {
-        setCarregando(true)
         const response = await api.get(`/funcoes/${selectedId}`)
-        console.log('Dados da função:', response.data)
-
         const f = response.data
-        if (f && f.funcao && f.setor) {
-          setFuncao(f.funcao)
-          setSetor(f.setor)
-          setMensagemErro('')
-        } else {
-          throw new Error('Dados incompletos da função.')
-        }
+        setFuncao(f.funcao)
+        setSetor(f.setor)
+        setAtivo(f.ativo === 1)
+        setMensagemErro('')
+        setMensagemSucesso('')
       } catch (error) {
         console.error('Erro ao carregar função:', error)
         setMensagemErro('Erro ao carregar função.')
-      } finally {
-        setCarregando(false)
       }
     }
 
@@ -53,8 +46,31 @@ const FuncaoUpdatePage = () => {
       setMensagemSucesso('Função atualizada com sucesso!')
       setMensagemErro('')
     } catch (error) {
-      console.error('Erro ao atualizar:', error)
       setMensagemErro('Erro ao atualizar função.')
+      setMensagemSucesso('')
+    }
+  }
+
+  const ativar = async () => {
+    try {
+      await api.get(`/funcoes/${selectedId}/ativar`)
+      setAtivo(true)
+      setMensagemSucesso('Função ativada com sucesso!')
+      setMensagemErro('')
+    } catch (error) {
+      setMensagemErro('Erro ao ativar função.')
+      setMensagemSucesso('')
+    }
+  }
+
+  const desativar = async () => {
+    try {
+      await api.get(`/funcoes/${selectedId}/desativar`)
+      setAtivo(false)
+      setMensagemSucesso('Função desativada com sucesso!')
+      setMensagemErro('')
+    } catch (error) {
+      setMensagemErro('Erro ao desativar função.')
       setMensagemSucesso('')
     }
   }
@@ -62,8 +78,10 @@ const FuncaoUpdatePage = () => {
   return (
     <div className="min-h-screen flex flex-col">
       <Header />
+
       <div className="flex flex-1">
         <Sidebar />
+
         <main className="flex-1 p-6 space-y-6 bg-blue-100">
           <div className="flex justify-between items-center">
             <h1 className="text-2xl font-bold text-blue-700">Alterar Função</h1>
@@ -93,9 +111,9 @@ const FuncaoUpdatePage = () => {
           </div>
 
           <div className="bg-white p-6 rounded-xl shadow-md space-y-4">
-            <SelectFuncao value={selectedId ?? ''} onChange={setSelectedId} />
+            <SelectFuncao value={selectedId} onChange={setSelectedId} />
 
-            {selectedId && !carregando && (
+            {selectedId && (
               <>
                 <input
                   value={funcao}
@@ -110,12 +128,28 @@ const FuncaoUpdatePage = () => {
                   className="w-full border p-2 rounded"
                 />
 
-                <button
-                  onClick={salvar}
-                  className="bg-blue-600 text-white px-4 py-2 rounded hover:bg-blue-700"
-                >
-                  Salvar Alterações
-                </button>
+                <div className="flex gap-4 flex-wrap">
+                  <button
+                    onClick={salvar}
+                    className="bg-blue-600 text-white px-4 py-2 rounded hover:bg-blue-700"
+                  >
+                    Salvar Alterações
+                  </button>
+
+                  <button
+                    onClick={desativar}
+                    className="bg-red-600 text-white px-4 py-2 rounded hover:bg-red-700"
+                  >
+                    Desativar
+                  </button>
+
+                  <button
+                    onClick={ativar}
+                    className="bg-green-600 text-white px-4 py-2 rounded hover:bg-green-700"
+                  >
+                    Ativar
+                  </button>
+                </div>
 
                 {mensagemSucesso && (
                   <p className="text-green-600 text-sm">{mensagemSucesso}</p>
@@ -124,9 +158,6 @@ const FuncaoUpdatePage = () => {
                   <p className="text-red-500 text-sm">{mensagemErro}</p>
                 )}
               </>
-            )}
-            {carregando && (
-              <p className="text-gray-500">Carregando dados da função...</p>
             )}
           </div>
         </main>
