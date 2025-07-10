@@ -47,7 +47,15 @@ const EquipamentoListPage = () => {
         <h1 className="text-2xl font-bold">Equipamentos</h1>
         <Button onClick={handleCreate}>Novo Equipamento</Button>
       </div>
-      <DataTable data={equipamentos} columns={columns} />
+      <DataTable
+        data={equipamentos}
+        columns={columns}
+        currentPage={1}
+            rowsPerPage={10}
+            totalItems={equipamentos.length}
+            onPageChange={(page) => console.log("Página:", page)}
+            onRowsPerPageChange={(rows) => console.log("Linhas por página:", rows)}
+        />
     </div>
   );
 };
