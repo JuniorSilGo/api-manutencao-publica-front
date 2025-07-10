@@ -8,6 +8,7 @@ import FuncionarioUpdatePage from '@/pages/FuncionarioUpdatePage'
 import FuncaoListPage from '@/pages/FuncaoListPage'
 import FuncaoCreatePage from '@/pages/FuncaoCreatePage'
 import FuncaoUpdatePage from '@/pages/FuncaoUpdatePage'
+import FuncaoSearchPage from '@/pages/FuncaoSearchPage'
 
 const AppRoutes = () => {
   return (
@@ -23,6 +24,7 @@ const AppRoutes = () => {
         <Route path="/funcoes" element={<FuncaoListPage />} />
         <Route path="/funcoes/criar" element={<FuncaoCreatePage />} />
         <Route path="/funcoes/alterar" element={<FuncaoUpdatePage />} />
+        <Route path="/funcoes/buscar-funcionarios" element={<FuncaoSearchPage />} />
       </Routes>
     </BrowserRouter>
   )

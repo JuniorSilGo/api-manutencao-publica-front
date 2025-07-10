@@ -7,6 +7,7 @@ import {
   FaClipboardList,
   FaPlus,
   FaPen,
+  FaSearch,
 } from 'react-icons/fa'
 import { useState } from 'react'
 
@@ -43,15 +44,15 @@ const Sidebar = () => {
           )}
           <div className="space-y-2 ml-1">
             <Link to="/funcionarios" className={linkClass('/funcionarios')}>
-              <FaUsers size={18} />
+              <FaClipboardList size={18} />
               {aberto && <span>Listar</span>}
             </Link>
             <Link to="/funcionarios/criar" className={linkClass('/funcionarios/criar')}>
-              <FaUserPlus size={18} />
+              <FaPlus size={18} />
               {aberto && <span>Criar</span>}
             </Link>
             <Link to="/funcionarios/alterar" className={linkClass('/funcionarios/alterar')}>
-              <FaEdit size={18} />
+              <FaPen size={18} />
               {aberto && <span>Alterar</span>}
             </Link>
           </div>
@@ -75,6 +76,10 @@ const Sidebar = () => {
             <Link to="/funcoes/alterar" className={linkClass('/funcoes/alterar')}>
               <FaPen size={18} />
               {aberto && <span>Alterar</span>}
+            </Link>
+            <Link to="/funcoes/buscar-funcionarios" className={linkClass('/funcoes/buscar-funcionarios')}>
+              <FaSearch size={18} />
+              {aberto && <span>Buscar</span>}
             </Link>
           </div>
         </div>
