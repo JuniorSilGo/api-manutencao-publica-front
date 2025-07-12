@@ -16,8 +16,7 @@ const FuncionarioCreatePage = () => {
   const [erro, setErro] = useState('')
   const [sucesso, setSucesso] = useState('')
   const navigate = useNavigate()
-  const { user, logout, token } = useAuth()
-  const [menuAberto, setMenuAberto] = useState(false)
+  const { token } = useAuth()
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault()
@@ -53,42 +52,20 @@ const FuncionarioCreatePage = () => {
   }
 
   return (
-    <div className="min-h-screen flex flex-col">
+    <div className="min-h-screen flex flex-col bg-gradient-to-br from-blue-100 via-white to-blue-200">
       <Header />
       <div className="flex flex-1">
         <Sidebar />
 
-        <main className="flex-1 p-6 bg-blue-100">
-          <div className="flex justify-between items-center mb-6">
-            <h1 className="text-2xl font-bold text-blue-700">
+        <main className="flex-1 flex items-center justify-center p-6">
+          <form
+            onSubmit={handleSubmit}
+            className="space-y-4 max-w-md w-full bg-white p-6 rounded-xl shadow-md"
+          >
+            <h1 className="text-2xl font-bold text-blue-800 text-center">
               Cadastrar Funcionário
             </h1>
 
-            <div className="relative">
-              <button
-                onClick={() => setMenuAberto(!menuAberto)}
-                className="flex items-center gap-2 px-4 py-2 bg-gray-100 border rounded hover:bg-gray-200"
-              >
-                {user?.nome}
-                <span>▼</span>
-              </button>
-              {menuAberto && (
-                <div className="absolute right-0 mt-2 w-40 bg-white border rounded shadow-md z-10">
-                  <button
-                    onClick={() => {
-                      logout()
-                      navigate('/login')
-                    }}
-                    className="w-full px-4 py-2 text-left hover:bg-gray-100"
-                  >
-                    Sair
-                  </button>
-                </div>
-              )}
-            </div>
-          </div>
-
-          <form onSubmit={handleSubmit} className="space-y-4 max-w-md">
             <InputField
               label="Nome"
               value={nome}
@@ -107,7 +84,7 @@ const FuncionarioCreatePage = () => {
               onChange={(e) => setSenha(e.target.value)}
             />
 
-            <label className="text-sm font-semibold">Função</label>
+            <label className="text-sm font-semibold text-gray-700">Função</label>
             <SelectFuncao
               value={Number(idFuncao)}
               onChange={(id) => setIdFuncao(String(id))}

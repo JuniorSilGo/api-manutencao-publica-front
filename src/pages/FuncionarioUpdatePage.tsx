@@ -12,10 +12,12 @@ const FuncionarioUpdatePage = () => {
   const navigate = useNavigate()
   const [menuAberto, setMenuAberto] = useState(false)
   const [selectedId, setSelectedId] = useState<number | ''>('')
+
   const [nome, setNome] = useState('')
   const [email, setEmail] = useState('')
   const [idFuncao, setIdFuncao] = useState<number>(0)
   const [ativo, setAtivo] = useState(true)
+
   const [mensagemSucesso, setMensagemSucesso] = useState('')
   const [mensagemErro, setMensagemErro] = useState('')
 
@@ -79,14 +81,26 @@ const FuncionarioUpdatePage = () => {
     }
   }
 
+  const deletar = async () => {
+    try {
+      await api.delete(`/funcionarios/${selectedId}`)
+      setMensagemSucesso('Funcionário deletado com sucesso!')
+      setMensagemErro('')
+      setTimeout(() => navigate('/funcionarios'), 1500)
+    } catch (error) {
+      setMensagemErro('Erro ao deletar funcionário.')
+      setMensagemSucesso('')
+    }
+  }
+
   return (
-    <div className="min-h-screen flex flex-col">
+    <div className="min-h-screen flex flex-col bg-gradient-to-br from-blue-100 via-white to-blue-200">
       <Header />
 
       <div className="flex flex-1">
         <Sidebar />
 
-        <main className="flex-1 p-6 space-y-6 bg-blue-100">
+        <main className="flex-1 p-6 space-y-6">
           <div className="flex justify-between items-center">
             <h1 className="text-2xl font-bold text-blue-700">Alterar Funcionário</h1>
 
@@ -114,7 +128,7 @@ const FuncionarioUpdatePage = () => {
             </div>
           </div>
 
-          <div className="bg-white p-6 rounded-xl shadow-md space-y-4">
+          <div className="bg-white p-6 rounded-xl shadow-md space-y-4 max-w-xl mx-auto">
             <SelectFuncionario value={selectedId} onChange={setSelectedId} />
 
             {selectedId && (
@@ -154,6 +168,13 @@ const FuncionarioUpdatePage = () => {
                     className="bg-green-600 text-white px-4 py-2 rounded hover:bg-green-700"
                   >
                     Ativar
+                  </button>
+
+                  <button
+                    onClick={deletar}
+                    className="bg-red-800 text-white px-4 py-2 rounded hover:bg-red-900"
+                  >
+                    Deletar
                   </button>
                 </div>
 

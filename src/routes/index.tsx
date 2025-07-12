@@ -8,6 +8,7 @@ import FuncionarioUpdatePage from '@/pages/FuncionarioUpdatePage'
 import FuncaoListPage from '@/pages/FuncaoListPage'
 import FuncaoCreatePage from '@/pages/FuncaoCreatePage'
 import FuncaoUpdatePage from '@/pages/FuncaoUpdatePage'
+import FuncaoSearchPage from '@/pages/FuncaoSearchPage'
 
 import EquipamentoListPage from "../pages/EquipamentoListPage";
 import EquipamentoCreatePage from "../pages/EquipamentoCreatePage";
@@ -28,12 +29,10 @@ const AppRoutes = () => {
         <Route path="/funcoes" element={<FuncaoListPage />} />
         <Route path="/funcoes/criar" element={<FuncaoCreatePage />} />
         <Route path="/funcoes/alterar" element={<FuncaoUpdatePage />} />
-
+        <Route path="/funcoes/buscar-funcionarios" element={<FuncaoSearchPage />} />
         <Route path="/equipamentos" element={<EquipamentoListPage />} />
         <Route path="/equipamentos/novo" element={<EquipamentoCreatePage />} />
         <Route path="/equipamentos/:id/editar" element={<EquipamentoUpdatePage />} />
-        {/* Rotas adicionadas para Equipamento, falta Relatório */}
-
       </Routes>
     </BrowserRouter>
   )

@@ -5,7 +5,6 @@ import FilterField from '@/components/FilterField'
 import Header from '@/components/Header'
 import Sidebar from '@/components/Sidebar'
 import { useAuth } from '@/contexts/AuthContext'
-import { useNavigate } from 'react-router-dom'
 
 interface Funcao {
   id_funcao: number
@@ -21,9 +20,7 @@ const FuncaoListPage = () => {
   const [currentPage, setCurrentPage] = useState(1)
   const [rowsPerPage, setRowsPerPage] = useState(10)
 
-  const { user, logout } = useAuth()
-  const navigate = useNavigate()
-  const [menuAberto, setMenuAberto] = useState(false)
+  const { user } = useAuth()
 
   const buscarFuncoes = async () => {
     try {
@@ -56,40 +53,17 @@ const FuncaoListPage = () => {
   )
 
   return (
-    <div className="min-h-screen flex flex-col bg-blue-100">
+    <div className="min-h-screen flex flex-col bg-gradient-to-br from-blue-100 via-white to-blue-200">
       <Header />
 
       <div className="flex flex-1">
         <Sidebar />
 
         <main className="flex-1 p-6">
-          <div className="flex justify-between items-center mb-6">
-            <h1 className="text-2xl font-bold text-blue-700">
+          <div className="mb-6">
+            <h1 className="text-2xl font-bold text-blue-800">
               Lista de Funções
             </h1>
-
-            <div className="relative">
-              <button
-                onClick={() => setMenuAberto(!menuAberto)}
-                className="flex items-center gap-2 px-4 py-2 bg-gray-100 border rounded hover:bg-gray-200"
-              >
-                {user?.nome}
-                <span>▼</span>
-              </button>
-              {menuAberto && (
-                <div className="absolute right-0 mt-2 w-40 bg-white border rounded shadow-md z-10">
-                  <button
-                    onClick={() => {
-                      logout()
-                      navigate('/login')
-                    }}
-                    className="w-full px-4 py-2 text-left hover:bg-gray-100"
-                  >
-                    Sair
-                  </button>
-                </div>
-              )}
-            </div>
           </div>
 
           <FilterField

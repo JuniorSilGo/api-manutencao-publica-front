@@ -11,11 +11,13 @@ const FuncaoUpdatePage = () => {
   const navigate = useNavigate()
   const [menuAberto, setMenuAberto] = useState(false)
   const [selectedId, setSelectedId] = useState<number | ''>('')
+
   const [funcao, setFuncao] = useState('')
   const [setor, setSetor] = useState('')
+  const [ativo, setAtivo] = useState(true)
+
   const [mensagemSucesso, setMensagemSucesso] = useState('')
   const [mensagemErro, setMensagemErro] = useState('')
-  const [ativo, setAtivo] = useState(true)
 
   useEffect(() => {
     const carregarFuncao = async () => {
@@ -39,10 +41,7 @@ const FuncaoUpdatePage = () => {
 
   const salvar = async () => {
     try {
-      await api.put(`/funcoes/${selectedId}`, {
-        funcao,
-        setor,
-      })
+      await api.put(`/funcoes/${selectedId}`, { funcao, setor })
       setMensagemSucesso('Função atualizada com sucesso!')
       setMensagemErro('')
     } catch (error) {
@@ -75,14 +74,26 @@ const FuncaoUpdatePage = () => {
     }
   }
 
+  const deletar = async () => {
+    try {
+      await api.delete(`/funcoes/${selectedId}`)
+      setMensagemSucesso('Função deletada com sucesso!')
+      setMensagemErro('')
+      setTimeout(() => navigate('/funcoes'), 1500)
+    } catch (error) {
+      setMensagemErro('Erro ao deletar função.')
+      setMensagemSucesso('')
+    }
+  }
+
   return (
-    <div className="min-h-screen flex flex-col">
+    <div className="min-h-screen flex flex-col bg-gradient-to-br from-blue-100 via-white to-blue-200">
       <Header />
 
       <div className="flex flex-1">
         <Sidebar />
 
-        <main className="flex-1 p-6 space-y-6 bg-blue-100">
+        <main className="flex-1 p-6 space-y-6">
           <div className="flex justify-between items-center">
             <h1 className="text-2xl font-bold text-blue-700">Alterar Função</h1>
 
@@ -110,7 +121,7 @@ const FuncaoUpdatePage = () => {
             </div>
           </div>
 
-          <div className="bg-white p-6 rounded-xl shadow-md space-y-4">
+          <div className="bg-white p-6 rounded-xl shadow-md space-y-4 max-w-xl mx-auto">
             <SelectFuncao value={selectedId} onChange={setSelectedId} />
 
             {selectedId && (
@@ -148,6 +159,13 @@ const FuncaoUpdatePage = () => {
                     className="bg-green-600 text-white px-4 py-2 rounded hover:bg-green-700"
                   >
                     Ativar
+                  </button>
+
+                  <button
+                    onClick={deletar}
+                    className="bg-red-800 text-white px-4 py-2 rounded hover:bg-red-900"
+                  >
+                    Deletar
                   </button>
                 </div>
 

@@ -24,37 +24,36 @@ const FuncionarioListPage = () => {
 
   const { user, logout } = useAuth()
   const navigate = useNavigate()
-  const [menuAberto, setMenuAberto] = useState(false)
 
   const buscarFuncionarios = async () => {
-  const offset = (currentPage - 1) * rowsPerPage
-  console.log('[DEBUG] Chamando /funcionarios com:', { limit: rowsPerPage, offset })
+    const offset = (currentPage - 1) * rowsPerPage
+    console.log('[DEBUG] Chamando /funcionarios com:', { limit: rowsPerPage, offset })
 
-  try {
-    const response = await api.get('/funcionarios', {
-      params: {
-        limit: rowsPerPage,
-        offset,
-      },
-      paramsSerializer: (params) => {
-        return Object.entries(params)
-          .map(([key, value]) => `${key}=${value}`)
-          .join('&')
-      },
-    })
+    try {
+      const response = await api.get('/funcionarios', {
+        params: {
+          limit: rowsPerPage,
+          offset,
+        },
+        paramsSerializer: (params) => {
+          return Object.entries(params)
+            .map(([key, value]) => `${key}=${value}`)
+            .join('&')
+        },
+      })
 
-    console.log('[DEBUG] Resposta da API:', response.data)
+      console.log('[DEBUG] Resposta da API:', response.data)
 
-    if (response.data && Array.isArray(response.data.rows)) {
-      setFuncionarios(response.data.rows)
-      setTotalItems(response.data.count)
-    }else {
-      setFuncionarios([])
-      setTotalItems(0)
+      if (response.data && Array.isArray(response.data.rows)) {
+        setFuncionarios(response.data.rows)
+        setTotalItems(response.data.count)
+      } else {
+        setFuncionarios([])
+        setTotalItems(0)
+      }
+    } catch (error) {
+      console.error('Erro ao buscar funcionários:', error)
     }
-  } catch (error) {
-    console.error('Erro ao buscar funcionários:', error)
-  }
   }
 
   useEffect(() => {
@@ -66,40 +65,17 @@ const FuncionarioListPage = () => {
   )
 
   return (
-    <div className="min-h-screen flex flex-col bg-blue-100">
+    <div className="min-h-screen flex flex-col bg-gradient-to-br from-blue-100 via-white to-blue-200">
       <Header />
 
       <div className="flex flex-1">
         <Sidebar />
 
         <main className="flex-1 p-6">
-          <div className="flex justify-between items-center mb-6">
-            <h1 className="text-2xl font-bold text-blue-700">
+          <div className="mb-6">
+            <h1 className="text-2xl font-bold text-blue-800">
               Lista de Funcionários
             </h1>
-
-            <div className="relative">
-              <button
-                onClick={() => setMenuAberto(!menuAberto)}
-                className="flex items-center gap-2 px-4 py-2 bg-gray-100 border rounded hover:bg-gray-200"
-              >
-                {user?.nome}
-                <span>▼</span>
-              </button>
-              {menuAberto && (
-                <div className="absolute right-0 mt-2 w-40 bg-white border rounded shadow-md z-10">
-                  <button
-                    onClick={() => {
-                      logout()
-                      navigate('/login')
-                    }}
-                    className="w-full px-4 py-2 text-left hover:bg-gray-100"
-                  >
-                    Sair
-                  </button>
-                </div>
-              )}
-            </div>
           </div>
 
           <FilterField
