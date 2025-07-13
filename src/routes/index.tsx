@@ -13,6 +13,9 @@ import FuncaoSearchPage from '@/pages/FuncaoSearchPage'
 import EquipamentoListPage from "../pages/EquipamentoListPage";
 import EquipamentoCreatePage from "../pages/EquipamentoCreatePage";
 import EquipamentoUpdatePage from "../pages/EquipamentoUpdatePage";
+import ManutencaoListPage from '@/pages/ManutencaoListPage'
+import ManutencaoCreatePage from '@/pages/ManutencaoCreatePage'
+import ManutencaoUpdatePage from '@/pages/ManutencaoUpdatePage'
 //modificação do JP para importar as páginas de Equipamento
 
 const AppRoutes = () => {
@@ -33,6 +36,9 @@ const AppRoutes = () => {
         <Route path="/equipamentos" element={<EquipamentoListPage />} />
         <Route path="/equipamentos/novo" element={<EquipamentoCreatePage />} />
         <Route path="/equipamentos/:id/editar" element={<EquipamentoUpdatePage />} />
+        <Route path="/manutencoes" element={<ManutencaoListPage />} />
+        <Route path="/manutencoes/criar" element={<ManutencaoCreatePage />} />
+        <Route path="/manutencoes/:id/atualizar" element={<ManutencaoUpdatePage />} />
       </Routes>
     </BrowserRouter>
   )
