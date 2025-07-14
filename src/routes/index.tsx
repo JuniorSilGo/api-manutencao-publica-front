@@ -39,6 +39,9 @@ const AppRoutes = () => {
         <Route path="/manutencoes" element={<ManutencaoListPage />} />
         <Route path="/manutencoes/criar" element={<ManutencaoCreatePage />} />
         <Route path="/manutencoes/:id/atualizar" element={<ManutencaoUpdatePage />} />
+        <Route path="/servicos" element={<ServicoListPage />} />
+        <Route path="/servicos/novo" element={<ServicoCreatePage />} />
+        <Route path="/servicos/:id/editar" element={<ServicoEditPage />} />
       </Routes>
     </BrowserRouter>
   )
