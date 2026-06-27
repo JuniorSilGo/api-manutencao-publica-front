@@ -1,5 +1,5 @@
 import { createContext, useContext, useState, ReactNode } from 'react';
-import axios from 'axios';
+import api from '@/services/axiosConfig';
 
 interface RegisterContextType {
   register: (nome: string, email: string, senha: string) => Promise<void>;
@@ -16,7 +16,7 @@ export const RegisterProvider = ({ children }: { children: ReactNode }) => {
 
   const register = async (nome: string, email: string, senha: string) => {
     try {
-      const response = await axios.post('/usuarios', {
+      const response = await api.post('/auth/register', {
         nome,
         email,
         senha,
@@ -26,7 +26,7 @@ export const RegisterProvider = ({ children }: { children: ReactNode }) => {
       setErro('');
     } catch (error: any) {
       console.error('Erro completo:', error.response || error.message);
-      setErro(error.response?.data?.error || 'Erro ao criar conta');
+      setErro(error.response?.data?.message || error.response?.data?.error || 'Erro ao criar conta');
       setSucesso('');
     }
   };
